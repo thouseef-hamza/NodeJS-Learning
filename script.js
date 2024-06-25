@@ -1,14 +1,17 @@
 const express = require("express")
 const app = express()
 const path = require("path")
+const token = require('./middleware/token')
+const validation = require("./middleware/validation")
 
-app.use(express.static("views"))
+// app.use(express.static("views"))
+const middleware = [token,validation]
 
 app.get("/template",(req,res)=>{
     res.sendFile(path.join(__dirname,"views","index.html"))
 })
 
-app.get("/",(req,res)=>{
+app.get("/",middleware,(req,res)=>{
     res.send("<h1>Home</h1>");
 })
 
